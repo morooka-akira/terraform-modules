@@ -7,3 +7,8 @@ variable "auto_verified_attributes" {
   description = "検証に使用する属性"
   default     = ["email"]
 }
+
+variable "client_name" {
+  description = "cognito user pool client name"
+  default     = "default"
+}
