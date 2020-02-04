@@ -12,3 +12,11 @@ variable "client_name" {
   description = "cognito user pool client name"
   default     = "default"
 }
+
+variable "generate_secret" {
+  default = true
+}
+
+variable "refresh_token_validity" {
+  default = 3650
+}

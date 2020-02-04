@@ -4,6 +4,8 @@ resource "aws_cognito_user_pool" "pool" {
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  name = var.client_name
   user_pool_id = aws_cognito_user_pool.pool.id
+  name = var.client_name
+  generate_secret = var.generate_secret
+  refresh_token_validity = var.refresh_token_validity
 }
