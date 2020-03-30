@@ -51,6 +51,10 @@ variable "db_instance_class" {
   default = "db.t2.micro"
 }
 
+variable "db_name" {
+  description = "db名 64文字以下 英数字"
+}
+
 variable "db_username" {
   description = "デフォルトユーザー"
 }

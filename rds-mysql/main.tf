@@ -61,6 +61,7 @@ module "mysql_sg" {
 
 resource "aws_db_instance" "default" {
   identifier              = var.name
+  name                    = var.db_name
   allocated_storage       = var.db_allocated_storage
   # NOTE: 汎用SSD固定
   storage_type            = "gp2"
