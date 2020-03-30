@@ -1,7 +1,7 @@
 variable "name" {}
 variable "vpc_id" {}
 variable "port" {}
-variable "bastion_sg_id" {}
+variable "sg_id" {}
 
 variable "cidr_blocks" {
   type = list(string)
@@ -15,7 +15,7 @@ resource "aws_security_group" "default" {
     from_port   = var.port
     to_port     = var.port
     protocol    = "tcp"
-    security_groups = [var.bastion_sg_id]
+    security_groups = [var.sg_id]
   }
 
   ingress {

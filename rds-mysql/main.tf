@@ -56,7 +56,7 @@ module "mysql_sg" {
   vpc_id      = var.vpc_id
   port        = 3306
   cidr_blocks = [var.vpc_cidr_block]
-  bastion_sg_id = var.bastion_sg_id
+  sg_id = var.sg_id
 }
 
 resource "aws_db_instance" "default" {

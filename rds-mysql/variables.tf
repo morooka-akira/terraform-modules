@@ -63,6 +63,6 @@ variable "skip_final_snapshot" {
   default = true
 }
 
-variable "bastion_sg_id" {
-  description = "踏み台のセキュリティグループID"
+variable "sg_id" {
+  description = "セキュリティグループID"
 }
