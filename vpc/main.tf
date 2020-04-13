@@ -44,8 +44,8 @@ resource "aws_route_table" "route_table" {
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  count          = 1
-  subnet_id      = element(aws_subnet.public.*.id, 0)
+  count          = var.az_count
+  subnet_id      = element(aws_subnet.public.*.id, count.index)
   route_table_id = aws_route_table.route_table.id
 }
 
@@ -94,6 +94,7 @@ resource "aws_route" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  subnet_id      = element(aws_subnet.private.*.id, 0)
+  count          = var.az_count
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
   route_table_id = aws_route_table.private.id
 }
