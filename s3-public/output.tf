@@ -2,6 +2,6 @@ output "bucket_name" {
   value = replace(aws_s3_bucket.public.bucket_domain_name, ".s3.amazonaws.com", "")
 }
 
-output "endpoint" {
-  value = aws_s3_bucket.public.website_endpoint
+output "domain_name" {
+  value = aws_s3_bucket.public.bucket_regional_domain_name
 }
