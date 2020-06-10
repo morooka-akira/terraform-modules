@@ -4,9 +4,24 @@ resource "aws_ecs_cluster" "default" {
 }
 
 # ==================== aws_ecs_task_definition ==========================
+data "aws_iam_policy" "ecs_task_role_policy" {
+  arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
+}
+
+data "aws_iam_policy_document" "ecs_task_role" {
+  source_json = data.aws_iam_policy.ecs_task_role_policy.policy
+}
+
+module "iam_role_ecs_task_role" {
+    source        = "../iam_role"
+    name          = "${var.name}-esc-task"
+    identifier    = "ecs-tasks.amazonaws.com"
+    policy_json   = data.aws_iam_policy_document.ecs_task_role.json
+}
+
 # ecs task iam role
-resource "aws_iam_role" "ecs_task_role" {
-  name               = "${var.name}-esc-task"
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name               = "${var.name}-esc-execution-task"
   assume_role_policy = file("${path.module}/assume_role_policy/ecs_task.json")
 }
 
@@ -24,14 +39,14 @@ data "aws_iam_policy_document" "ecs_task_execution" {
   }
 }
 
-resource "aws_iam_policy" "default" {
+resource "aws_iam_policy" "ecs_task_execution" {
   policy = data.aws_iam_policy_document.ecs_task_execution.json
 }
 
 # タスクの実行ロール
-resource "aws_iam_role_policy_attachment" "task_ececution" {
-  role       = aws_iam_role.ecs_task_role.name
-  policy_arn = aws_iam_policy.default.arn
+resource "aws_iam_role_policy_attachment" "task_execution" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.ecs_task_execution.arn
 }
 
 resource "aws_cloudwatch_log_group" "tasc-definition" {
@@ -46,7 +61,8 @@ resource "aws_ecs_task_definition" "default" {
   memory                   = var.memory
   cpu                      = var.cpu
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_task_role.arn
+  task_role_arn            = module.iam_role_ecs_task_role.iam_role_arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   depends_on = [
     aws_cloudwatch_log_group.tasc-definition
   ]
@@ -168,7 +184,7 @@ resource "aws_alb_listener" "port-443" {
 
 # NOTE: ECS Serviceに紐付けるためのロール
 resource "aws_iam_role_policy_attachment" "ecs_service" {
-  role       = aws_iam_role.ecs_task_role.name
+  role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
