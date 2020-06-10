@@ -33,3 +33,11 @@ variable "autoscaling_min_capacity" {
 variable "autoscaling_max_capacity" {
   default = 2
 }
+
+variable "memory" {
+  default = "2048"
+}
+
+variable "cpu" {
+  default = "1024"
+}

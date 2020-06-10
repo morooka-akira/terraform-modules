@@ -43,8 +43,8 @@ resource "aws_ecs_task_definition" "default" {
   family = var.name
   container_definitions    = var.container_definitions
   network_mode             = "awsvpc"
-  memory                   = "2048"
-  cpu                      = "1024"
+  memory                   = var.memory
+  cpu                      = var.cpu
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.ecs_task_role.arn
   depends_on = [
