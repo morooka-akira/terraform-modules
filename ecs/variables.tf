@@ -41,3 +41,7 @@ variable "memory" {
 variable "cpu" {
   default = "1024"
 }
+
+variable "health_check_path" {
+  default = "/"
+}

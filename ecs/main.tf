@@ -123,7 +123,7 @@ resource "aws_alb_target_group" "default" {
 
   health_check {
     interval = 60
-    path     = "/"
+    path     = var.health_check_path
     // NOTE: defaultはtraffic-portなので指定しなくてOK
     //port                = 80  
     protocol            = "HTTP"
