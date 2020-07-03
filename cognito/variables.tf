@@ -20,3 +20,9 @@ variable "generate_secret" {
 variable "refresh_token_validity" {
   default = 3650
 }
+
+variable "labmda_custom_message" {
+  type        = string
+  default     = ""
+  description = "custom trigger labmda arn"
+}
