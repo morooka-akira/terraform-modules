@@ -11,6 +11,14 @@ resource "aws_cognito_user_pool" "pool" {
   lambda_config {
     custom_message = var.labmda_custom_message
   }
+
+  password_policy {
+    minimum_length    = var.password_minimum_length
+    require_lowercase = var.password_require_lowercase
+    require_uppercase = var.password_require_uppercase
+    require_numbers   = var.password_require_numbers
+    require_symbols   = var.password_require_symbols
+  }
 }
 
 resource "aws_cognito_user_pool_client" "client" {

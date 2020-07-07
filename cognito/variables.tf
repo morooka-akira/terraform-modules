@@ -44,3 +44,33 @@ variable "labmda_custom_message" {
   default     = ""
   description = "custom trigger labmda arn"
 }
+
+variable "password_minimum_length" {
+  type        = number
+  default     = 8
+  description = "The minimum length of the password policy that you have set."
+}
+
+variable "password_require_lowercase" {
+  type        = bool
+  default     = true
+  description = "Whether you have required users to use at least one lowercase letter in their password."
+}
+
+variable "password_require_uppercase" {
+  type        = bool
+  default     = true
+  description = "Whether you have required users to use at least one uppercase letter in their password."
+}
+
+variable "password_require_numbers" {
+  type        = bool
+  default     = true
+  description = "Whether you have required users to use at least one number in their password."
+}
+
+variable "password_require_symbols" {
+  type        = bool
+  default     = true
+  description = "Whether you have required users to use at least one symbol in their password."
+}
