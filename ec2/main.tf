@@ -28,6 +28,31 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+ 
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+ 
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+ 
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_security_group" "ec2" {
   name   = var.name
   vpc_id = var.vpc_id
@@ -64,7 +89,7 @@ resource "aws_key_pair" "default" {
 }
 
 resource "aws_instance" "default" {
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = var.ami_type == "amazon_linux" ? data.aws_ami.amazon_linux.id : data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
   key_name      = aws_key_pair.default.id

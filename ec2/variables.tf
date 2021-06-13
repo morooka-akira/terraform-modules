@@ -3,6 +3,10 @@ variable "name" {
   description = "ec2 name"
 }
 
+variable "ingress_ports" {
+  default     = [22]
+}
+
 variable "instance_type" {
   description = "instance type"
   default     = "t2.micro" 
@@ -23,6 +27,7 @@ variable "key_name" {
 variable "public_key" {
 }
 
-variable "ingress_ports" {
-  default     = [22]
+variable "ami_type" {
+  description = "amazon_linux or ubuntu"
+  default     = "amazon_linux"
 }
